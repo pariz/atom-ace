@@ -1,0 +1,20 @@
+".source.c, .source.c\\+\\+, .source.objc, .source.objc\\+\\+":
+  editor:
+    increaseIndentPattern: '''
+      (?x)
+      	    ^ .* \\{ [^}"']* $
+      	|   ^ \\s* (public|private|protected): \\s* $
+      	|   ^ \\s* @(public|private|protected) \\s* $
+      	
+    '''
+    decreaseIndentPattern: '''
+      (?x)
+      	    ^ (.*\\*/)? \\s* \\} .* $
+      	|   ^ \\s* (public|private|protected): \\s* $
+      	|   ^ \\s* @(public|private|protected) \\s* $
+      	
+    '''
+    commentStart: "// "
+".text.ace":
+  editor:
+    commentStart: "// "

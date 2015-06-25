@@ -1,0 +1,122 @@
+".source.c, .source.c\\+\\+, .source.objc, .source.objc\\+\\+":
+  "#ifndef … #define … #endif":
+    prefix: "def"
+    body: '''
+      #ifndef ${1/([A-Za-z0-9_]+).*/$1/}
+      #define ${1:SYMBOL} ${2:value}
+      #endif
+    '''
+".source.c, .source.objc, .source.c\\+\\+, .source.objc\\+\\+":
+  "#include <…>":
+    prefix: "Inc"
+    body: "#include <${1:.h}>"
+  "#include \"…\"":
+    prefix: "inc"
+    body: "#include \"$1\""
+  "main()":
+    prefix: "main"
+    body: '''
+      int main(int argc, char const *argv[])
+      {
+      	${0:/* code */}
+      	return 0;
+      }
+    '''
+  "For Loop":
+    prefix: "for"
+    body: '''
+      for (int ${2:i} = 0; $2 < ${1:count}; ${3:++$2})
+      {
+      	${0:/* code */}
+      }
+    '''
+  Typedef:
+    prefix: "td"
+    body: "typedef ${1:int} ${2:MyCustomType};"
+  "Do While Loop":
+    prefix: "do"
+    body: '''
+      do
+      {
+      	${0:/* code */}
+      } while (${1:/* condition */});
+    '''
+  "Vector For Loop":
+    prefix: "forv"
+    body: '''
+      for (std::vector<$1>::iterator ${3:i} = $2.begin(); $3 != $2.end(); ++$3)
+      {
+      	$0
+      }
+    '''
+  "fprintf …":
+    prefix: "fprintf"
+    body: "fprintf(${1:stderr}, \"${2:%s}\\\\n\"${2/([^%]|%%)*(%.)?.*/(?2:, :\\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\\);)/}"
+  "If Condition":
+    prefix: "if"
+    body: '''
+      if (${1:/* condition */})
+      {
+      	${0:/* code */}
+      }
+    '''
+  "printf …":
+    prefix: "printf"
+    body: "printf(\"${1:%s}\\\\n\"${1/([^%]|%%)*(%.)?.*/(?2:, :\\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\\);)/}"
+  Struct:
+    prefix: "struct"
+    body: '''
+      struct $1
+      {
+      	${0:/* data */}
+      };
+    '''
+".source.c\\+\\+, .source.objc\\+\\+":
+  "$1.begin(), $1.end()":
+    prefix: "beginend"
+    body: "${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()"
+  Enumeration:
+    prefix: "enum"
+    body: "enum ${1:name} { $0 };"
+  Class:
+    prefix: "class"
+    body: '''
+      class $1
+      {
+      public:
+      	${1/(\\w+).*/$1/}(${2:arguments});
+      	~${1/(\\w+).*/$1/}();
+      
+      	${0:/* data */}
+      };
+    '''
+  Namespace:
+    prefix: "ns"
+    body: '''
+      namespace${1/.+/ /m}$1
+      {
+      	$0
+      }
+      
+    '''
+  "Read File Into Vector":
+    prefix: "readfile"
+    body: '''
+      std::vector<char> v;
+      if (FILE *fp = fopen(${1:"filename"}, "r"))
+      {
+      	char buf[1024];
+      	while (size_t len = fread(buf, 1, sizeof(buf), fp))
+      		v.insert(v.end(), buf, buf + len);
+      	fclose(fp);
+      }
+    '''
+  "std::map":
+    prefix: "map"
+    body: "std::map<${1:key}, ${2:value}> map$0;"
+  "std::vector":
+    prefix: "vector"
+    body: "std::vector<${1:char}> v$0;"
+  "template <typename ${1:_InputIter}>":
+    prefix: "tp"
+    body: "template <typename ${1:_InputIter}>"
