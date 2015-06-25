@@ -1,6 +1,6 @@
 {
   "name": "language-ace",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ace(golang) template support for atom",
   "keywords": [],
   "repository": "https://github.com/pariz/atom-ace",
