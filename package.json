@@ -1,14 +1,12 @@
 {
   "name": "language-ace",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A short description of your package",
-  "keywords": [
-  ],
+  "keywords": [],
   "repository": "https://github.com/pariz/atom-ace",
   "license": "MIT",
   "engines": {
     "atom": ">=0.174.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
