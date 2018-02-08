@@ -205,7 +205,7 @@ repository:
       }
     ]
   "embedded-ace":
-    begin: "(?<!\\\\)#{"
+    begin: "(?<!\\\\)#\\{"
     end: "}"
     name: "source.ace.embedded.html"
     patterns: [
